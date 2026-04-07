@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Shift · Riverside Memorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-950: #062b2a;
+    --teal-800: #0f4f4d;
+    --teal-700: #14655f;
+    --teal-600: #1a8079;
+    --teal-500: #2aa39a;
+    --teal-100: #d4f0ec;
+    --teal-50:  #ecf8f6;
+    --sage:     #8fbf9f;
+    --warm-50:  #fbf8f3;
+    --warm-100: #f3ede1;
+    --ink:      #0b1f1e;
+    --ink-soft: #46615e;
+    --line:     #dfe9e6;
+    --danger:   #c44545;
+    --amber:    #d49245;
+    --shadow-sm: 0 1px 2px rgba(6, 43, 42, 0.06), 0 1px 3px rgba(6, 43, 42, 0.04);
+    --shadow-md: 0 4px 12px rgba(6, 43, 42, 0.08), 0 2px 4px rgba(6, 43, 42, 0.04);
+    --shadow-lg: 0 16px 40px rgba(6, 43, 42, 0.12), 0 4px 12px rgba(6, 43, 42, 0.06);
+    --radius:   18px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--warm-50); color: var(--ink); font-family: 'Inter', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse 800px 400px at 20% -10%, var(--teal-100) 0%, transparent 60%),
+      radial-gradient(ellipse 600px 300px at 90% 10%, #fff5e8 0%, transparent 60%),
+      var(--warm-50);
+    padding: 32px 20px 60px;
+  }
+
+  .widget {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding: 0 4px;
+  }
+  .header-left h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--teal-950);
+  }
+  .header-left p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    letter-spacing: 0.01em;
+  }
+  .avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: var(--shadow-md);
+    border: 2px solid #fff;
+  }
+
+  /* Time tracking card */
+  .time-card {
+    background: linear-gradient(155deg, var(--teal-800) 0%, var(--teal-700) 50%, var(--teal-600) 100%);
+    border-radius: var(--radius);
+    padding: 24px;
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .time-card::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .time-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  }
+
+  .time-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .time-card-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+  }
+  .time-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .ukg-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
+    padding: 6px 11px;
+    border-radius: 100px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .ukg-pill .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #6ee7b7;
+    box-shadow: 0 0 8px #6ee7b7;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    position: relative;
+  }
+  .tile {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 14px;
+    padding: 16px 14px;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    color: #fff;
+    font-family: inherit;
+  }
+  .tile:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-2px);
+  }
+  .tile:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .tile.active {
+    background: #fff;
+    color: var(--teal-800);
+    border-color: #fff;
+  }
+  .tile-icon {
+    width: 28px; height: 28px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tile-icon svg { width: 100%; height: 100%; }
+  .tile-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.8;
+    font-weight: 600;
+  }
+  .tile-value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin-top: 2px;
+    letter-spacing: -0.01em;
+  }
+  .tile-value.tabular { font-variant-numeric: tabular-nums; }
+
+  /* Status strip below time card */
+  .status-strip {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-sm);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .status-strip .left { display: flex; align-items: center; gap: 10px; }
+  .status-strip .left strong { color: var(--ink); font-weight: 600; }
+  .status-strip .icon-wrap {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--teal-50);
+    color: var(--teal-700);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .status-strip .icon-wrap svg { width: 16px; height: 16px; }
+
+  /* Section heading */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding: 0 4px;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--teal-950);
+  }
+  .section-head a {
+    font-size: 12px;
+    color: var(--teal-700);
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .section-head a:hover { color: var(--teal-600); }
+
+  /* Shift cards */
+  .shifts { display: flex; flex-direction: column; gap: 10px; }
+  .shift {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+  .shift:hover {
+    border-color: var(--teal-500);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .shift-date {
+    flex-shrink: 0;
+    width: 56px;
+    text-align: center;
+    border-right: 1px solid var(--line);
+    padding-right: 18px;
+  }
+  .shift-date .month {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--teal-600);
+    font-weight: 700;
+  }
+  .shift-date .day {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--teal-950);
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .shift-date .weekday {
+    font-size: 10px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .shift-info { flex: 1; min-width: 0; }
+  .shift-info .role {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .shift-info .unit {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+  .shift-info .time {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .shift-info .time .dur {
+    color: var(--teal-700);
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .swap-btn {
+    flex-shrink: 0;
+    background: var(--teal-50);
+    color: var(--teal-700);
+    border: 1px solid var(--teal-100);
+    padding: 9px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .swap-btn:hover {
+    background: var(--teal-700);
+    color: #fff;
+    border-color: var(--teal-700);
+  }
+  .swap-btn svg { width: 13px; height: 13px; }
+  .shift.requested .swap-btn {
+    background: var(--warm-100);
+    color: var(--amber);
+    border-color: var(--warm-100);
+    pointer-events: none;
+  }
+  .shift.requested .swap-btn::before {
+    content: '⏳';
+    margin-right: 2px;
+  }
+
+  /* Resume shift correction link */
+  .resume-link {
+    margin-top: 14px;
+    text-align: center;
+    position: relative;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
+  }
+  .resume-link.show {
+    max-height: 60px;
+    opacity: 1;
+  }
+  .resume-link button {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 100px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.2s ease;
+  }
+  .resume-link button:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.32);
+  }
+  .resume-link button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .resume-link svg { width: 13px; height: 13px; }
+  .resume-link .helper {
+    display: block;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--teal-950);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 100;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast svg { width: 16px; height: 16px; color: #6ee7b7; }
+
+  @media (max-width: 520px) {
+    .tiles { gap: 8px; }
+    .tile { padding: 12px 10px; }
+    .tile-value { font-size: 18px; }
+    .shift { padding: 14px; gap: 12px; }
+    .shift-date { width: 48px; padding-right: 12px; }
+    .shift-date .day { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="widget">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Good morning, Maria</h1>
+      <p>Tuesday · April 7 · Riverside Memorial Hospital</p>
+    </div>
+    <div class="avatar">MR</div>
+  </div>
+
+  <!-- Time tracking card -->
+  <div class="time-card">
+    <div class="time-card-header">
+      <div>
+        <div class="time-card-label">My Time Today</div>
+        <div class="time-card-title">ICU · 4 North</div>
+      </div>
+      <div class="ukg-pill"><span class="dot"></span> Synced with UKG</div>
+    </div>
+
+    <div class="tiles">
+      <button class="tile" id="clockInTile" onclick="clockIn()">
+        <div class="tile-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="tile-label">Clock In</div>
+        <div class="tile-value" id="clockInValue">— : —</div>
+      </button>
+
+      <button class="tile" id="timeInShiftTile" disabled>
+        <div class="tile-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="tile-label">Time in Shift</div>
+        <div class="tile-value tabular" id="timeInShiftValue">0h 00m</div>
+      </button>
+
+      <button class="tile" id="clockOutTile" onclick="clockOut()" disabled>
+        <div class="tile-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <div class="tile-label">Clock Out</div>
+        <div class="tile-value" id="clockOutValue">— : —</div>
+      </button>
+    </div>
+
+    <div class="resume-link" id="resumeLink">
+      <button id="resumeBtn" onclick="resumeShift()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 4 3 10 9 10"/></svg>
+        Clocked out by mistake? Resume shift
+      </button>
+      <span class="helper">Sends a punch correction to your manager in UKG</span>
+    </div>
+  </div>
+  <div class="status-strip">
+    <div class="left">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <div>Pay period total: <strong>32h 15m</strong></div>
+    </div>
+    <div style="font-size:11px; color:var(--teal-700); font-weight:600;">PRO WFM</div>
+  </div>
+
+  <!-- Upcoming shifts -->
+  <div class="section-head">
+    <h2>Upcoming shifts</h2>
+    <a href="#">View schedule →</a>
+  </div>
+
+  <div class="shifts" id="shiftsList"></div>
+</div>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toastMsg">Done</span>
+</div>
+
+<script>
+  // ---- Dummy healthcare data ----
+  const shifts = [
+    {
+      id: 1,
+      day: 9, weekday: 'Thu', month: 'Apr',
+      role: 'Registered Nurse',
+      unit: 'ICU · 4 North',
+      start: '07:00', end: '19:00', dur: '12h',
+      requested: false
+    },
+    {
+      id: 2,
+      day: 11, weekday: 'Sat', month: 'Apr',
+      role: 'Registered Nurse',
+      unit: 'Emergency Dept.',
+      start: '19:00', end: '07:00', dur: '12h Night',
+      requested: false
+    },
+    {
+      id: 3,
+      day: 13, weekday: 'Mon', month: 'Apr',
+      role: 'Charge Nurse',
+      unit: 'ICU · 4 North',
+      start: '07:00', end: '15:00', dur: '8h',
+      requested: true
+    },
+    {
+      id: 4,
+      day: 15, weekday: 'Wed', month: 'Apr',
+      role: 'Registered Nurse',
+      unit: 'Post-Op Recovery',
+      start: '11:00', end: '23:00', dur: '12h',
+      requested: false
+    }
+  ];
+
+  // ---- State ----
+  let clockInTime = null;
+  let clockOutTime = null;
+  let timerInterval = null;
+
+  // ---- Render shifts ----
+  function renderShifts() {
+    const list = document.getElementById('shiftsList');
+    list.innerHTML = shifts.map(s => `
+      <div class="shift ${s.requested ? 'requested' : ''}">
+        <div class="shift-date">
+          <div class="month">${s.month}</div>
+          <div class="day">${s.day}</div>
+          <div class="weekday">${s.weekday}</div>
+        </div>
+        <div class="shift-info">
+          <div class="role">${s.role}</div>
+          <div class="unit">${s.unit}</div>
+          <div class="time">${s.start} – ${s.end}<span class="dur">${s.dur}</span></div>
+        </div>
+        <button class="swap-btn" onclick="requestSwap(${s.id})">
+          ${s.requested ? 'Swap pending' : `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            Swap
+          `}
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function requestSwap(id) {
+    const shift = shifts.find(s => s.id === id);
+    if (!shift || shift.requested) return;
+    shift.requested = true;
+    renderShifts();
+    showToast(`Swap request sent to UKG for ${shift.month} ${shift.day}`);
+  }
+
+  // ---- Time tracking ----
+  function fmtTime(d) {
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+
+  function clockIn() {
+    if (clockInTime) return;
+    clockInTime = new Date();
+    document.getElementById('clockInValue').textContent = fmtTime(clockInTime);
+    document.getElementById('clockInTile').classList.add('active');
+    document.getElementById('clockInTile').disabled = true;
+    document.getElementById('clockOutTile').disabled = false;
+    startTimer();
+    showToast('Clocked in · synced to UKG Pro WFM');
+  }
+
+  function clockOut() {
+    if (!clockInTime || clockOutTime) return;
+    clockOutTime = new Date();
+    document.getElementById('clockOutValue').textContent = fmtTime(clockOutTime);
+    document.getElementById('clockOutTile').classList.add('active');
+    document.getElementById('clockOutTile').disabled = true;
+    stopTimer();
+    document.getElementById('resumeLink').classList.add('show');
+    showToast('Clocked out · timesheet updated');
+  }
+
+  function resumeShift() {
+    const btn = document.getElementById('resumeBtn');
+    btn.disabled = true;
+    btn.innerHTML = '✓ Correction sent to manager';
+    showToast('Punch correction request sent via UKG');
+  }
+
+  function startTimer() {
+    updateElapsed();
+    timerInterval = setInterval(updateElapsed, 1000);
+  }
+  function stopTimer() { clearInterval(timerInterval); }
+
+  function updateElapsed() {
+    if (!clockInTime) return;
+    const end = clockOutTime || new Date();
+    const ms = end - clockInTime;
+    const h = Math.floor(ms / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    document.getElementById('timeInShiftValue').textContent = `${h}h ${String(m).padStart(2,'0')}m`;
+  }
+
+  // ---- Toast ----
+  let toastTimeout;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  // ---- Init ----
+  renderShifts();
+</script>
+
+</body>
+</html>
